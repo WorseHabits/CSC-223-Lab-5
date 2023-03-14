@@ -1,0 +1,52 @@
+//
+//
+//       D(2,7)        C(4, 7)
+//
+//
+//                                            E(10, 5)
+//                        
+//
+//       A(2,0)        B(4, 0)
+//
+//    A regular rectangle with an outlier point 5 points and 4 segments
+{
+  "Figure" :
+  {
+    "Description" : "A regular rectangle with an unconnected outlier point.",
+    "Points" :
+	  [
+	    {
+	      "name" : "A",
+		  "x" : 2,
+   	      "y" : 0
+		},
+	    {
+	      "name" : "B",
+		  "x" : 4,
+   	      "y" : 0
+		},
+	    {
+	      "name" : "C",
+		  "x" : 4,
+   	      "y" : 7
+		},
+        {
+          "name" : "D",
+          "x" : 2,
+          "y" : 7
+        },
+        {
+          "name" : "E",
+          "x" : 10,
+          "y" : 5
+        }
+	  ],
+  
+    "Segments" :
+      [
+	    {"A" : ["B", "D",] },
+        {"B" : ["C"] },
+        {"C" : ["D"] },
+      ]
+  }
+}

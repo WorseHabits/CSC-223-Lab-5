@@ -1,0 +1,21 @@
+//    "Comment" : "  A *                               
+//                                                                         
+{
+  "Figure" :
+  {
+    "Description" : "One point with a segment that reflexes the point.",
+    "Points" :
+	  [
+	    {
+          "name" : "A",
+          "x" : 7,
+          "y" : 8
+        }
+	  ],
+  
+    "Segments" :
+      [
+	    {"A" : ["A"] }
+      ]
+  }
+}
