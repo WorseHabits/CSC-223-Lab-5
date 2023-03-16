@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 
 import input.components.ComponentNode;
 import input.components.point.PointNode;
+import input.visitor.ComponentNodeVisitor;
 import utilities.io.StringUtilities;
 
 public class SegmentNodeDatabase implements ComponentNode{
@@ -188,16 +189,11 @@ public class SegmentNodeDatabase implements ComponentNode{
 	}
 
 	@Override
-	public void unparse(StringBuilder sb, int level) {
-
-		sb.append(StringUtilities.indent(level) + "Segments: \n" + StringUtilities.indent(level) + "{ \n");
-
-		sb.append(StringUtilities.indent(level) + this.toString());
-
-		sb.append(StringUtilities.indent(level - 1) + "}\n");
-
+	public Object accept(ComponentNodeVisitor visitor, Object o) 
+	{
+		return visitor.visitSegmentDatabaseNode(this, o);
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 
@@ -217,6 +213,11 @@ public class SegmentNodeDatabase implements ComponentNode{
 		
 		return true;
 
+	}
+
+	public Map<PointNode, Set<PointNode>> getAdjList()
+	{
+		return _adjLists;
 	}
 
 }

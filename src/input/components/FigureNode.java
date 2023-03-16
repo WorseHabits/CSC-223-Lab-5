@@ -11,6 +11,7 @@ package input.components;
 
 import input.components.point.PointNodeDatabase;
 import input.components.segment.SegmentNodeDatabase;
+import input.visitor.ComponentNodeVisitor;
 import utilities.io.StringUtilities;
 
 /**
@@ -36,23 +37,10 @@ public class FigureNode implements ComponentNode
 		_segments = segments;
 	}
 
+
 	@Override
-	public void unparse(StringBuilder sb, int level)
-	{
-		sb.append(StringUtilities.indent(level) + "Figure: \n" + StringUtilities.indent(level) + "{ \n");
-		
-		// adds the description to the string builder 
-		sb.append(StringUtilities.indent(level + 1) + "Description: " + _description + "\n");
-		
-		// adds the points and segments to the string builder 
-		_points.unparse(sb, level + 1);
-		_segments.unparse(sb, level + 1);
-		
-		sb.append(StringUtilities.indent(level) + "}");
-    }
 	public Object accept(ComponentNodeVisitor visitor, Object o)
 	{
 		return visitor.visitFigureNode(this, o);
 	}
-	
 }

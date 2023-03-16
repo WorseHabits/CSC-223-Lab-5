@@ -8,6 +8,7 @@ import input.components.*;
 import input.components.point.*;
 import input.components.segment.SegmentNode;
 import input.components.segment.SegmentNodeDatabase;
+import utilities.io.StringUtilities;
 
 //
 // This file implements a Visitor (design pattern) with 
@@ -19,32 +20,50 @@ public class UnparseVisitor implements ComponentNodeVisitor
 	@Override
 	public Object visitFigureNode(FigureNode node, Object o)
 	{
-		if(o instanceof StringBuilder) {
-
-			StringBuilder sb = (StringBuilder) o;  
-		}
 		// Unpack the input object containing a Stringbuilder and an indentation level
 		@SuppressWarnings("unchecked")
 		AbstractMap.SimpleEntry<StringBuilder, Integer> pair = (AbstractMap.SimpleEntry<StringBuilder, Integer>)(o);
 		StringBuilder sb = pair.getKey();
 		int level = pair.getValue();
 
-		// TODO
+		sb.append("Figure" + "\n" + StringUtilities.indent(level));
 
-		return null;
+		level++;
+
+		sb.append("Description : " + node.getDescription());
+
+		sb.append("\n Points: \n" + StringUtilities.indent(level));
+		node.getPointsDatabase().accept(this, pair);
+		sb.append("\n" + StringUtilities.indent(level) + "}");
+
+		sb.append("\n Segments: \n" + StringUtilities.indent(level));
+		node.getSegments().accept(this, pair);
+		sb.append("\n" + StringUtilities.indent(level) + "}");
+
+		level--;
+
+		return o;
 	}
 
 	@Override
 	public Object visitSegmentDatabaseNode(SegmentNodeDatabase node, Object o)
-	{
-		if(o instanceof StringBuilder) {
+	{		
+		@SuppressWarnings("unchecked")
+		AbstractMap.SimpleEntry<StringBuilder, Integer> pair = (AbstractMap.SimpleEntry<StringBuilder, Integer>)(o);
+		StringBuilder sb = pair.getKey();
+		int level = pair.getValue();
 
-			StringBuilder sb = (StringBuilder) o;  
+		//Iterates through the map to get each directed edge
+		for (PointNode DirectedEdge : node.getAdjList().keySet()) {
+			sb.append("\n" + StringUtilities.indent(level) + DirectedEdge.getName() + " : ");
+
+			//Adds each undirected edge to it corresponding DirectedEdge
+			for(PointNode UndirectedEdge : node.getAdjList().get(DirectedEdge))
+			{
+				sb.append(UndirectedEdge.getName() + " ");
+			}
 		}
-
-		// TODO
-
-		return null;
+		return o;
 	}
 
 	/**
@@ -77,12 +96,15 @@ public class UnparseVisitor implements ComponentNodeVisitor
 	@Override
 	public Object visitPointNode(PointNode node, Object o)
 	{
-		if(o instanceof StringBuilder) {
+		@SuppressWarnings("unchecked")
+		AbstractMap.SimpleEntry<StringBuilder, Integer> pair = (AbstractMap.SimpleEntry<StringBuilder, Integer>)(o);
+		StringBuilder sb = pair.getKey();
+		int level = pair.getValue();
 
-			StringBuilder sb = (StringBuilder) o;  
-		}
-		// TODO
+		sb.append("\n" + StringUtilities.indent(level) +
+				"Point(" + node.getName() + ")(" + node.getX()+
+				", " + node.getY() + ")");
 
-		return null;
+		return o;
 	}
 }
